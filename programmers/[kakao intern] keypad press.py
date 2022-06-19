@@ -5,14 +5,41 @@ def solution(numbers, hand):
     # template = {1:[1,1],2:[2,1],3:[3,1],4:[1,2],5:[2,2],6:[3,2],7:[1,3],8:[2,3],9:[3,3],0:[2,4]}
     template = { i-4 : divmod(i,4) for i in range(5,14)}
     template.setdefault(0,(2,4))     
-    template.setdefault('R',[3,4])
-    template.setdefault('L',[1,4])
+    # template.setdefault('R',[3,4])
+    # template.setdefault('L',[1,4])
     '''
     dictionary representation을 사용하여 조금더 계산식으로써 템플릿을만들었습니다.
     0의 경우에는 예외적으로 처리하였습니다.
     '''
+    R = 10
+    L = 12
     # 오른손 왼손 default 좌표값입니다. # and *의 좌표값
+    for i in numbers:
+        if i ==0:
+            numbers[numbers.index(i)] = 11
+    for i in numbers:
+        if i in [1,4,7]:
+            answer += 'L'
+            template['L'] = i
+        elif i in [3,6,9]:
+            answer += 'R'
+            template['R'] = i
+        else:
+            if abs(i-R) == abs(i-L):
+                answer += hand
+                if hand =='R':
+                    R = i
+                else:
+                    L = i
+            elif abs(i-R) < abs(i-L):
+                answer += 'R'
+                R = i
+            else:
+                answer += 'L'
+                L = i
 
+
+    
     '''
     for i in numbers:
         if i in [1,4,7]:
@@ -35,12 +62,14 @@ def solution(numbers, hand):
                 answer +='L'
                 L = template[i]
     '''
+    '''
+    a = { str(i-4) : divmod(i,4) for i in range(5,16)}
 
     for i in numbers:
-        if template[i][0]  == 1 :
+        if template[i][0]  == 1:
             answer += 'L'
             template['L'] = template[i]
-        elif template[i][0] ==3:
+        elif template[i][0] == 3:
             answer += 'R'
             template['R'] = template[i]
         else:
@@ -53,5 +82,7 @@ def solution(numbers, hand):
             else:
                 answer += 'L'
                 template['L'] = template[i]
+                '''
+
                 
     return answer
